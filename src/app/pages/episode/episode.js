@@ -7,7 +7,7 @@ import {TittleDetail} from "../components/tittleDetail"
 import './episode.css'
 
 
-export function Episode() { 
+export function Episode(jsonData) { 
 
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
@@ -18,7 +18,7 @@ export function Episode() {
           <Typography>
             Algo muy largo de descripcion test Algo muy largo de descripcion test Algo muy largo de descripcion test Algo muy largo de descripcion test Algo muy largo de descripcion test
           </Typography>
-          <audio class="audioEpisode" src="../music/woman.mp3" controls="controls"  preload="none">
+          <audio className="audioEpisode" src="../music/woman.mp3" controls="controls"  preload="none">
           </audio>
         </Box>
       </Grid>

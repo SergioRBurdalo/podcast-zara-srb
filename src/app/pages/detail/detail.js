@@ -46,7 +46,7 @@ const rows = [
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-export function Detail() { 
+export function Detail(jsonData) { 
 
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>

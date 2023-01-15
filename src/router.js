@@ -6,11 +6,11 @@ import { Home } from './app/pages/home/home';
 import { Detail } from './app/pages/detail/detail';
 import { Episode } from './app/pages/episode/episode';
 
-export function Router() {
+export function Router(jsonData) {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Home />,
+      element: <Home jsonData={jsonData}/>,
       // children: [
       //   {
       //     path: '/podcast/:podcastId',
@@ -30,11 +30,11 @@ export function Router() {
     },
     {
       path: '/podcast/:podcastId',
-      element: <Detail />,
+      element: <Detail jsonData={jsonData}/>,
     },
     {
       path: '/podcast/:podcastId/episode/:episodeId',
-      element: <Episode />,
+      element: <Episode jsonData={jsonData}/>,
     }
   ]);
 

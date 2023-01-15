@@ -13,33 +13,7 @@ import { CardActionArea } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import './home.css'
 
-export function Home() {
-//   const [podcasts, setPodcasts] = useState();
-  const [count, setCount] = useState(123);
-//   const { setIsLoading } = useLoading();
-
-//   useEffect(() => {
-//     setIsLoading(true);
-
-//     getAllPodcasts()
-//       .then((podcastsResponse) => {
-//         setPodcasts(podcastsResponse.podcasts);
-//         setCount(podcastsResponse.count);
-//       })
-//       .catch((error) => {
-//         // eslint-disable-next-line no-console
-//         console.error('Something went wrong:', error);
-//       })
-//       .finally(() => setIsLoading(false));
-//   }, [setIsLoading]);
-
-//   const handleSearch = (searchText) => {
-//     getAllPodcasts(searchText).then((podcastsResponse) => {
-//       setPodcasts(podcastsResponse.podcasts);
-//       setCount(podcastsResponse.count);
-//     });
-//   };
-
+export function Home(jsonData) {
   return (
     <>
     <div>

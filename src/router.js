@@ -3,7 +3,8 @@ import React from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { Home } from './app/pages/home/home';
-import { AAAA } from './app/header/AAAA';
+import { Detail } from './app/pages/detail/detail';
+import { Episode } from './app/pages/episode/episode';
 
 export function Router() {
   const router = createBrowserRouter([
@@ -29,7 +30,11 @@ export function Router() {
     },
     {
       path: '/podcast/:podcastId',
-      element: <AAAA />,
+      element: <Detail />,
+    },
+    {
+      path: '/podcast/:podcastId/episode/:episodeId',
+      element: <Episode />,
     }
   ]);
 

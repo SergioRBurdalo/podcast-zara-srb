@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import Link from '@mui/material/Link';
 import {Grid,Box,Button,Typography, CardMedia,Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -11,7 +13,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import {checkNotUndefined,formatDate} from "../../utils/utils"
+
 import './detail.css'
+
+var XMLParser = require('react-xml-parser');
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -34,26 +40,55 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export function Detail(jsonData) { 
+  
+  
+  const { podcastId } = useParams();
+  const baseURL=`https://itunes.apple.com/lookup?id=${podcastId}`;
+
+  axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
+  const [detailPodcast, setDetailPodcast] = useState();
+  const [feedEpisodes, setFeedEpisodes]= useState();
+  let cont = 1;
+  const episodes = [];
+  
+  useEffect(() => {
+    axios.get(`https://cors-anywhere.herokuapp.com/${baseURL}`).then((response) => {
+       setDetailPodcast(response.data.results[0])
+    });
+  }, []);
+
+  useEffect(() => {
+    if(detailPodcast){
+    axios.get(`https://cors-anywhere.herokuapp.com/${detailPodcast?.feedUrl}`).then((response) => {
+      var xml = new XMLParser().parseFromString(response.data);
+
+      if(xml.children[0].children[0].children.length > 0){
+        setFeedEpisodes(xml.children[0].children[0].children);
+      }else if(xml.children.length > 1){
+        setFeedEpisodes(xml.children);
+      }else{
+        setFeedEpisodes(xml.children[0].children);
+      }
+   });}
+  }, [detailPodcast]);
+  
+
+
+  feedEpisodes?.map((ss)=>{ 
+    if(ss.name === "item")
+    {
+      episodes.push(ss);
+    }
+    return 0;
+  });
 
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
-      <TittleDetail/>
+      <TittleDetail jsonData={jsonData}/>
       <Grid item xs={9}>
         <Box boxShadow={2} component="div" sx={{borderRadius:'5px',p:1, width:'80%',border: '1px solid silver', fontSize:'1.2em' }}>
-          <b>Episodes: 66</b>
+          <b>Episodes: {detailPodcast?.trackCount}</b>
         </Box>
         <Box boxShadow={2} mt={2} component="div" sx={{borderRadius:'5px',p:1, width:'80%',border: '1px solid silver' }}>
           <TableContainer component={Paper}>
@@ -66,13 +101,13 @@ export function Detail(jsonData) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <StyledTableRow  key={row.name}>
+                {episodes.map((row) => (
+                  <StyledTableRow  key={row.children.find(ss=>ss.name ==="title").value}>
                     <StyledTableCell component="th" scope="row">
-                      <Link underline="none" href="/podcast/1/episode/1">{row.name}</Link>
+                      <Link underline="none" href={`/podcast/${podcastId}/episode/${cont++}`}>{row.children.find(ss=>ss.name ==="title").value}</Link>
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.calories}</StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    <StyledTableCell align="right">{formatDate(checkNotUndefined(row.children.find(ss=>ss.name ==="pubDate")))}</StyledTableCell>
+                    <StyledTableCell align="right">{checkNotUndefined(row.children.find(ss=>ss.name ==="itunes:duration"))}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

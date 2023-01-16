@@ -1,16 +1,19 @@
 import React from 'react';
-import Link from '@mui/material/Link';
+import {Link, Box, CircularProgress} from '@mui/material';
 import './header.css'
 
 
-export function Header() {
-
+export function Header({loading}) {
   return (
     <header className="header">
       <h1>
         <Link className="link" underline="none" href="/">Podcaster</Link>
       </h1>
-      {/* {loadingIcon} */}
+      {loading &&
+      <Box sx={{ display: 'flex' }}>
+        <CircularProgress />
+      </Box>
+      }
     </header>
   );
 }

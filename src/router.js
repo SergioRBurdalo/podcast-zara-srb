@@ -6,7 +6,8 @@ import { Home } from './app/pages/home/home';
 import { Detail } from './app/pages/detail/detail';
 import { Episode } from './app/pages/episode/episode';
 
-export function Router(jsonData) {
+export function Router({isLoading, jsonData}) {
+  console.log(jsonData)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -30,11 +31,11 @@ export function Router(jsonData) {
     },
     {
       path: '/podcast/:podcastId',
-      element: <Detail jsonData={jsonData}/>,
+      element: <Detail isLoading={isLoading} jsonData={jsonData}/>,
     },
     {
       path: '/podcast/:podcastId/episode/:episodeId',
-      element: <Episode jsonData={jsonData}/>,
+      element: <Episode isLoading={isLoading} jsonData={jsonData}/>,
     }
   ]);
 

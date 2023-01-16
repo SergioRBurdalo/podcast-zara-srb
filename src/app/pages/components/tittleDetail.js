@@ -6,11 +6,10 @@ import {Grid,Box,Typography, CardMedia,Divider,Link } from '@mui/material';
 
 import './tittleDetail.css'
 
-export function TittleDetail(jsonData) {
-
+export function TittleDetail({jsonData}) {
 
   const { podcastId } = useParams();
-  const item = jsonData?.jsonData?.jsonData?.jsonData?.find(ss=> ss.id.attributes['im:id'] === podcastId ); 
+  const item = jsonData?.find(ss=> ss.id.attributes['im:id'] === podcastId ); 
 
   return (
       <Grid item xs={3}>

@@ -11,12 +11,12 @@ import { Header } from './app/header/header';
 function App() {
   const [podcasts, setPodcasts] = useState();
   const baseURL='https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json';
-  const [loading, setLoading] = useState(true);
+  const [loading, isLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
+    isLoading(true);
     axios.get(baseURL).then((response) => {
-      setLoading(false);
+      isLoading(false);
       setPodcasts(response.data.feed.entry);
     });
     
@@ -25,7 +25,7 @@ function App() {
   return (
   <LoadingProvider>
     <Header loading={loading}/>
-    <Router jsonData={podcasts}/>
+    <Router isLoading={isLoading} jsonData={podcasts}/>
   </LoadingProvider>
   );
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Link from '@mui/material/Link';
-import {Grid,Box,Button,Typography, CardMedia,Divider } from '@mui/material';
+import {Grid,Box} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {TittleDetail} from "../components/tittleDetail"
 import Table from '@mui/material/Table';
@@ -40,7 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export function Detail(jsonData) { 
+export function Detail({isLoading,jsonData}) { 
   
   
   const { podcastId } = useParams();
@@ -53,14 +53,18 @@ export function Detail(jsonData) {
   const episodes = [];
   
   useEffect(() => {
+    isLoading(true);
     axios.get(`https://cors-anywhere.herokuapp.com/${baseURL}`).then((response) => {
+      isLoading(false);
        setDetailPodcast(response.data.results[0])
     });
-  }, []);
+  }, [baseURL]);
 
   useEffect(() => {
     if(detailPodcast){
+      isLoading(true);
     axios.get(`https://cors-anywhere.herokuapp.com/${detailPodcast?.feedUrl}`).then((response) => {
+      isLoading(false);
       var xml = new XMLParser().parseFromString(response.data);
 
       if(xml.children[0].children[0].children.length > 0){
@@ -82,7 +86,6 @@ export function Detail(jsonData) {
     }
     return 0;
   });
-
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
       <TittleDetail jsonData={jsonData}/>

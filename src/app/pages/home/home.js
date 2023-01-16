@@ -12,16 +12,14 @@ import './home.css'
 export function Home(jsonData) {
     const [data, setData] = useState([]);
     let dataSearch= [];
-    console.log(data)
     useEffect(() => {
         setData(jsonData.jsonData.jsonData)
     }, [jsonData]);
 const handleSearch = (searchText) => {
     
     dataSearch= [];
-    console.log(data)
     jsonData.jsonData.jsonData?.map(function(ss) {
-        if(ss['im:name'].label.toLowerCase().includes(searchText.toLowerCase())){
+        if(ss['im:name'].label.toLowerCase().includes(searchText.toLowerCase()) || ss['im:artist'].label.toLowerCase().includes(searchText.toLowerCase())){
             dataSearch.push(ss);
         }
         return dataSearch;

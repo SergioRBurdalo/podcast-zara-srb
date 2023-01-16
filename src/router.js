@@ -7,7 +7,6 @@ import { Detail } from './app/pages/detail/detail';
 import { Episode } from './app/pages/episode/episode';
 
 export function Router({isLoading, jsonData}) {
-  console.log(jsonData)
   const router = createBrowserRouter([
     {
       path: '/',

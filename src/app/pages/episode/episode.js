@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import {Grid,Box,Typography } from '@mui/material';
+import {Grid,Box } from '@mui/material';
 import {TittleDetail} from "../components/tittleDetail"
 
 import './episode.css'

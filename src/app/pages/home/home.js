@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useLoading } from '../../../app/context/LoadingContext';
-// import { PodcastItem } from '../../models/podcastItem';
-// import { getAllPodcasts } from '../../services/podcastService';
 import { Searchbox } from './components/Searchbox/Searchbox';
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -14,8 +10,25 @@ import Grid from '@mui/material/Grid';
 import './home.css'
 
 export function Home(jsonData) {
-const data  = jsonData.jsonData.jsonData
-
+    const [data, setData] = useState([]);
+    let dataSearch= [];
+    console.log(data)
+    useEffect(() => {
+        setData(jsonData.jsonData.jsonData)
+    }, [jsonData]);
+const handleSearch = (searchText) => {
+    
+    dataSearch= [];
+    console.log(data)
+    jsonData.jsonData.jsonData?.map(function(ss) {
+        if(ss['im:name'].label.toLowerCase().includes(searchText.toLowerCase())){
+            dataSearch.push(ss);
+        }
+        return dataSearch;
+    });
+    setData(dataSearch);
+};
+    
   return (
     <>
     <div>
@@ -24,7 +37,7 @@ const data  = jsonData.jsonData.jsonData
                 <span className="blue">{data?.length}</span>
             </Grid>
             <Grid item xs={3}>
-                <Searchbox /*onChange={handleSearch}*/ placeholder="Filter podcasts..." />
+                <Searchbox onChange={handleSearch} placeholder="Filter podcasts..." />
             </Grid>
         </Grid>
         <Grid container className='listCard' rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>

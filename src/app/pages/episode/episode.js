@@ -9,7 +9,7 @@ import './episode.css'
 var XMLParser = require('react-xml-parser');
 
 
-export function Episode(jsonData) { 
+export function Episode({isLoading, jsonData}) { 
 
   const { podcastId, episodeId } = useParams();
   const baseURL=`https://itunes.apple.com/lookup?id=${podcastId}`;
@@ -21,14 +21,18 @@ export function Episode(jsonData) {
   
   
   useEffect(() => {
+    isLoading(true);
     axios.get(`https://cors-anywhere.herokuapp.com/${baseURL}`).then((response) => {
-       setDetailPodcast(response.data.results[0])
+      isLoading(false);  
+      setDetailPodcast(response.data.results[0])
     });
   }, [baseURL]);
 
   useEffect(() => {
     if(detailPodcast){
+      isLoading(true);
     axios.get(`https://cors-anywhere.herokuapp.com/${detailPodcast?.feedUrl}`).then((response) => {
+      isLoading(false);  
       var xml = new XMLParser().parseFromString(response.data);
 
       if(xml.children[0].children[0].children.length > 0){

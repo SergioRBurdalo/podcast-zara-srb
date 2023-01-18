@@ -22,7 +22,6 @@ export function Episode({isLoading, jsonData}) {
     fetchEpisode({isLoading, baseURL, setFeedEpisodes, episodeId});
   }, [isLoading, baseURL, episodeId]);
 
-console.log('epi',feedEpisodes);
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
       <TittleDetail jsonData={jsonData}/>

@@ -51,9 +51,6 @@ export function Detail({isLoading,jsonData}) {
     fetchDetails({isLoading, baseURL, setDetailPodcast, setFeedEpisodes});
   }, [isLoading, baseURL]);
 
-  console.log('EEEEEEEEE',feedEpisodes);
-  console.log('aaaaaaaaaaaaaaaaa',detailPodcast);
-
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
       <TittleDetail jsonData={jsonData}/>

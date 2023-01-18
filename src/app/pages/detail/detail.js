@@ -13,11 +13,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import {checkNotUndefined,formatDate} from "../../utils/utils"
+import {formatMiliseconds,formatDate} from "../../utils/utils";
+import {fetchDetails} from "../../../app/services/services";
 
 import './detail.css'
-
-var XMLParser = require('react-xml-parser');
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,7 +35,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
   // hide last border
   '&:last-child td, &:last-child th': {
-    
   },
 }));
 
@@ -44,48 +42,18 @@ export function Detail({isLoading,jsonData}) {
   
   
   const { podcastId } = useParams();
-  const baseURL=`https://itunes.apple.com/lookup?id=${podcastId}`;
+  const baseURL=`https://itunes.apple.com/lookup?id=${podcastId}&media=podcast&entity=podcastEpisode&limit=200`;
 
-  axios.defaults.headers.post['Content-Type'] ='application/x-www-form-urlencoded';
   const [detailPodcast, setDetailPodcast] = useState();
   const [feedEpisodes, setFeedEpisodes]= useState();
-  let cont = 1;
-  const episodes = [];
   
   useEffect(() => {
-    isLoading(true);
-    axios.get(`https://cors-anywhere.herokuapp.com/${baseURL}`).then((response) => {
-      isLoading(false);
-       setDetailPodcast(response.data.results[0])
-    });
-  }, [baseURL]);
+    fetchDetails({isLoading, baseURL, setDetailPodcast, setFeedEpisodes});
+  }, [isLoading, baseURL]);
 
-  useEffect(() => {
-    if(detailPodcast){
-      isLoading(true);
-    axios.get(`https://cors-anywhere.herokuapp.com/${detailPodcast?.feedUrl}`).then((response) => {
-      isLoading(false);
-      var xml = new XMLParser().parseFromString(response.data);
+  console.log('EEEEEEEEE',feedEpisodes);
+  console.log('aaaaaaaaaaaaaaaaa',detailPodcast);
 
-      if(xml.children[0].children[0].children.length > 0){
-        setFeedEpisodes(xml.children[0].children[0].children);
-      }else if(xml.children.length > 1){
-        setFeedEpisodes(xml.children);
-      }else{
-        setFeedEpisodes(xml.children[0].children);
-      }
-   });}
-  }, [detailPodcast]);
-  
-
-
-  feedEpisodes?.map((ss)=>{ 
-    if(ss.name === "item")
-    {
-      episodes.push(ss);
-    }
-    return 0;
-  });
   return (
     <Grid container mt={5} ml={5} className='detailContainer'>
       <TittleDetail jsonData={jsonData}/>
@@ -104,13 +72,13 @@ export function Detail({isLoading,jsonData}) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {episodes.map((row) => (
-                  <StyledTableRow  key={row.children.find(ss=>ss.name ==="title").value}>
+                {feedEpisodes?.map((row) => (
+                  <StyledTableRow  key={row.trackId}>
                     <StyledTableCell component="th" scope="row">
-                      <Link underline="none" href={`/podcast/${podcastId}/episode/${cont++}`}>{row.children.find(ss=>ss.name ==="title").value}</Link>
+                      <Link underline="none" href={`/podcast/${podcastId}/episode/${row.trackId}`}>{row.trackName}</Link>
                     </StyledTableCell>
-                    <StyledTableCell align="right">{formatDate(checkNotUndefined(row.children.find(ss=>ss.name ==="pubDate")))}</StyledTableCell>
-                    <StyledTableCell align="right">{checkNotUndefined(row.children.find(ss=>ss.name ==="itunes:duration"))}</StyledTableCell>
+                    <StyledTableCell align="right">{formatDate(row.releaseDate)}</StyledTableCell>
+                    <StyledTableCell align="right">{formatMiliseconds(row.trackTimeMillis)}</StyledTableCell>
                   </StyledTableRow>
                 ))}
               </TableBody>

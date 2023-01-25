@@ -1,6 +1,5 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 import { Router } from './router';
 import { LoadingProvider } from "./app/context/LoadingContext";

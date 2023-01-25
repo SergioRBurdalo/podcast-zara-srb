@@ -12,22 +12,6 @@ export function Router({isLoading, jsonData}) {
     {
       path: '/',
       element: <Home jsonData={jsonData}/>,
-      // children: [
-      //   {
-      //     path: '/podcast/:podcastId',
-      //     element: <PodcastDetail />,
-      //     children: [
-      //       {
-      //         path: '',
-      //         element: <EpisodesOverview />,
-      //       },
-      //       {
-      //         path: 'episode/:episodeId',
-      //         element: <EpisodeDetail />,
-      //       },
-      //     ],
-      //   },
-      // ],
     },
     {
       path: '/podcast/:podcastId',

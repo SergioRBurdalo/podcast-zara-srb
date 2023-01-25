@@ -13,24 +13,3 @@
 .link{
   color: #1976d2;
 }
-
-@include screen-breakpoint(small) {
-  .header {
-    margin: 0 2rem;
-    margin-bottom: 1.75rem;
-  }
-}
-
-@include screen-breakpoint(large) {
-  .header {
-    margin: 0 10rem;
-    margin-bottom: 1.75rem;
-  }
-}
-
-@include screen-breakpoint(wide) {
-  .header {
-    margin: 0 15rem;
-    margin-bottom: 1.75rem;
-  }
-}

@@ -6,7 +6,6 @@ const DELAY_DEBOUNCE_TIMEOUT = 650;
 export function Searchbox({ onChange, onSearch, placeholder }){
   const [searchValue, setSearchValue] = useState('');
 
-  // Wait a short timeout before executing the search.
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (onSearch) {
@@ -18,17 +17,14 @@ export function Searchbox({ onChange, onSearch, placeholder }){
   }, [onSearch, searchValue]);
 
   const handleSubmit = (event) => {
-    // Execute submit event from props.
     if (onSearch) {
       onSearch(searchValue);
     }
 
-    // Avoid default behavior from form element.
     event.preventDefault();
   };
 
   const handleChange = (event) => {
-    // Execute change event from props.
     if (onChange) {
       onChange(event.target.value);
     }

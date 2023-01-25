@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import {Grid,Box } from '@mui/material';
 import {TittleDetail} from "../components/tittleDetail"
 
-import {formatMiliseconds,formatDate} from "../../utils/utils";
 import {fetchEpisode} from "../../../app/services/services";
 
 import './episode.css'

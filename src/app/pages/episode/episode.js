@@ -28,7 +28,7 @@ export function Episode({isLoading, jsonData}) {
           <h3>{feedEpisodes?.trackName}</h3>
           <div dangerouslySetInnerHTML={{ __html:feedEpisodes?.description}} />
 
-          <audio className="audioEpisode" src={feedEpisodes?.episodeUrl} controls="controls"  preload="none">
+          <audio id="audioBox" className="audioEpisode" src={feedEpisodes?.episodeUrl} controls="controls"  preload="none">
           </audio>
         </Box>
       </Grid>
